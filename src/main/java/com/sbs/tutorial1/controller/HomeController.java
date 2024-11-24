@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.*;
+
 @Controller
 // 개발자가 스프링부트한테 말한다.
 // "이 클래스는 웹 요청을 받아서 작업할 거야!"
@@ -49,5 +51,63 @@ public class HomeController {
   @ResponseBody
   public int showPlus(@RequestParam(defaultValue = "0") int a, @RequestParam int b) {
     return a + b;
+  }
+
+  @GetMapping("/home/returnBoolean")
+  @ResponseBody
+  public boolean showReturnBoolean() {
+    return true;
+  }
+
+  @GetMapping("/home/returnDouble")
+  @ResponseBody
+  public Double showReturnDouble() {
+    return Math.PI;
+  }
+
+  @GetMapping("/home/returnArray")
+  @ResponseBody
+  public int[] showReturnArray() {
+    int[] arr = new int[]{10, 20, 30};
+
+    return arr;
+  }
+
+  @GetMapping("/home/returnIntList")
+  @ResponseBody
+  public List<Integer> showReturnIntList() {
+    List<Integer> list = new ArrayList<>(){{
+      add(10);
+      add(20);
+      add(30);
+    }};
+
+    /*
+    List<Integer> list = new ArrayList<>();
+    list.add(10);
+    list.add(20);
+    list.add(30);
+     */
+
+
+    return list;
+  }
+
+  @GetMapping("/home/returnMap")
+  @ResponseBody
+  public Map<String, Object> showReturnMap() {
+    Map<String, Object> map = new LinkedHashMap<>() {{
+      put("id", 1);
+      put("subject", "제목1");
+      put("content", "내용1");
+      put("writerName", "김철수");
+      put("articleNo", new ArrayList<>() {{
+        add(1);
+        add(2);
+        add(3);
+      }});
+    }};
+
+    return map;
   }
 }
