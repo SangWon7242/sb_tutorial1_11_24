@@ -243,11 +243,42 @@ public class HomeController {
     // 조건에 맞는 걸 찾았고 삭제가 되었다면 true를 반환, 아니면 false를 반환
     boolean removed = people.removeIf(person -> person.getId() == id);
 
-    if(!removed) {
+    if (!removed) {
       return "%d번 사람이 존재하지 않습니다.".formatted(id);
     }
 
     return "%d번 사람이 삭제되었습니다.".formatted(id);
+  }
+
+  @GetMapping("/home/modifyPerson")
+  @ResponseBody
+  public String modifyPerson(int id, String name, int age) {
+    /*
+    Person found = null;
+
+    for(Person p : people) {
+      if(p.getId() == id) {
+        found = p;
+        break;
+      }
+    }
+    */
+
+    Person found = people.stream()
+        .filter(p -> p.getId() == id) // 해당 녀석이 참인 것만 필터링
+        .findFirst() // 찾은 것 중에 하나만 남는데, 그 하나 남은 것을 필터링
+        .orElse(null); // 없으면 null을 리턴
+
+    // System.out.println(found);
+
+    if(found == null) {
+      return "%d번 사람이 존재하지 않습니다.".formatted(id);
+    }
+
+    found.setName(name);
+    found.setAge(age);
+
+    return "%d번 사람이 수정되었습니다.".formatted(id);
   }
 
   @GetMapping("/home/showPeople")
@@ -321,8 +352,10 @@ class Article2 {
 class Person {
   private static int lastId;
   private final int id;
-  private final String name;
-  private final int age;
+  @Setter
+  private String name;
+  @Setter
+  private int age;
 
   static {
     lastId = 0;
