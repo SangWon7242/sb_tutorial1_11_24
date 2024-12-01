@@ -1,5 +1,7 @@
 package com.sbs.tutorial1.boundedContext.home.controller;
 
+import com.sbs.tutorial1.boundedContext.member.dto.Member;
+import com.sbs.tutorial1.boundedContext.member.service.MemberService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,10 +21,21 @@ import java.util.*;
 public class HomeController {
   int num;
   List<Person> people;
+  private MemberService memberService;
+
 
   public HomeController() {
     num = -1;
     people = new ArrayList<>();
+
+
+    memberService = new MemberService();
+  }
+
+  @GetMapping("/home/user1")
+  @ResponseBody
+  public Member showUser1() {
+    return memberService.findByUserName("user1");
   }
 
   @GetMapping("/home/main")
