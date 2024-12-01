@@ -6,6 +6,8 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,15 +23,22 @@ import java.util.*;
 public class HomeController {
   int num;
   List<Person> people;
+
+  // 필드 주입
+  /*
+  @Autowired
   private MemberService memberService;
+  */
 
-
-  public HomeController() {
+  private final MemberService memberService;
+  
+  // 생성자 주입
+  // @Autowired : 생략 가능
+  public HomeController(MemberService memberService) {
     num = -1;
     people = new ArrayList<>();
 
-
-    memberService = new MemberService();
+    this.memberService = memberService;
   }
 
   @GetMapping("/home/user1")
