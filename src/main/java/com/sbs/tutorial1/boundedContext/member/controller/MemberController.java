@@ -7,15 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-// @AllArgsConstructor
+@AllArgsConstructor
 @Controller
 public class MemberController {
   private final MemberService memberService;
-
-  // 생성자 주입
-  public MemberController(MemberService memberService) {
-    this.memberService = memberService;
-  }
 
   @GetMapping("/member/login")
   @ResponseBody
