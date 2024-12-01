@@ -1,11 +1,15 @@
 package com.sbs.tutorial1.controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.IOException;
 import java.util.*;
 
 @Controller
@@ -271,7 +275,7 @@ public class HomeController {
 
     // System.out.println(found);
 
-    if(found == null) {
+    if (found == null) {
       return "%d번 사람이 존재하지 않습니다.".formatted(id);
     }
 
@@ -285,6 +289,28 @@ public class HomeController {
   @ResponseBody
   public List<Person> showPeople() {
     return people;
+  }
+
+  @GetMapping("/home/cookie/increase")
+  @ResponseBody
+  public int showCookieIncrease(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+    int countInCookie = 0;
+
+    if (req.getCookies() != null) {
+      countInCookie = Arrays.stream(req.getCookies())
+          .filter(cookie -> cookie.getName().equals("count"))
+          .map(cookie -> cookie.getValue())
+          .mapToInt(Integer::parseInt)
+          .findAny()
+          .orElse(0);
+    }
+
+    int newCountInCookie = countInCookie + 1;
+
+    resp.addCookie(new Cookie("count", newCountInCookie + ""));
+
+    return newCountInCookie;
   }
 }
 
