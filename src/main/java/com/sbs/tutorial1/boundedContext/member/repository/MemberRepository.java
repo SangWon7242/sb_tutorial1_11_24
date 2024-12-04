@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository // 컴포넌트랑 같다.
 public class MemberRepository {
-  List<Member> members;
+  private List<Member> members;
 
   public MemberRepository() {
     members = new ArrayList<>();
@@ -27,14 +27,6 @@ public class MemberRepository {
 
 
   public Member findByUserName(String username) {
-    /*
-    for(Member member : members) {
-      if(member.getUsername().equals(username)) {
-        return member;
-      }
-    }
-    */
-
     return members.stream()
         .filter(member -> member.getUsername().equals(username))
         .findFirst()
