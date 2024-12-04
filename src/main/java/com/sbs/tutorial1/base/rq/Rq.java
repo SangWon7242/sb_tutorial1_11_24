@@ -21,16 +21,16 @@ public class Rq {
   }
 
   public boolean removeCookie(String name) {
-    if (req.getCookies() != null) {
-      Arrays.stream(req.getCookies())
-          .filter(cookie -> cookie.getName().equals(name))
-          .forEach(cookie -> {
-            cookie.setMaxAge(0); // 쿠키 만료
-            resp.addCookie(cookie);
-          });
+    Cookie cookie = Arrays.stream(req.getCookies())
+        .filter(c -> c.getName().equals(name))
+        .findFirst()
+        .orElse(null);
 
-      // anyMatch : 조건을 만족하면 true, 조건이 일치하지 않으면 false를 반환
-      return Arrays.stream(req.getCookies()).anyMatch(cookie -> cookie.getName().equals(name));
+    if(cookie != null) {
+      cookie.setMaxAge(0);
+      resp.addCookie(cookie);
+
+      return true;
     }
 
     return false;
