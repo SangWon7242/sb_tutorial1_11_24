@@ -121,4 +121,14 @@ public class Rq {
 
     return sessionInfo.toString();
   }
+
+  public boolean isLogined() {
+    long loginedMemberId = getSessionAsLong("loginedMemberId", 0);
+
+    return loginedMemberId > 0;
+  }
+
+  public boolean isLogout() {
+    return !isLogined();
+  }
 }
