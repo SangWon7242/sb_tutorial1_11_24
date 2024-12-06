@@ -16,27 +16,9 @@ public class MemberController {
   private final Rq rq;
 
   @GetMapping("/member/login")
-  @ResponseBody
   public String showLogin() {
-    // """ -> 텍스트 블록 문법
-    // 멀티라인으로 문자열을 정의
-    if(rq.isLogined()) {
-      return """
-             <h1>이미 로그인 되어있습니다.<h1>
-             """.stripIndent();
-    }
-  
-    // /member/doLogin -> doLogin만 작성 가능
-    // /member/doLogin -> 절대경로
-    // doLogin -> 상대 경로(현재 페이지의 위치를 기준으로 파일 참조)
-    return """
-          <h1>로그인</h1>
-          <form action="doLogin">
-            <input type="text" placeholder="아이디" name="username">
-            <input type="password" placeholder="비밀번호" name="password">
-            <input type="submit" value="로그인">
-          </form>
-          """;
+    return "usr/member/login";
+    // 왜 usr로 나누냐면 admin(관리자)와 나누기 위해서
   }
 
   @GetMapping("/member/doLogin")
